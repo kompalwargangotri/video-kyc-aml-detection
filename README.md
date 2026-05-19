@@ -110,10 +110,3 @@ python backend/evaluate_kyc_metrics.py
 # Generates real-time live database charts
 python generate_graphs.py
 ```
-
-## Authors
-
-- **Gangotri Kompalwar** (Dept. of E&Tc, Pune, India)
-- **Prathamesh Gavhane** (Dept. of E&Tc, Pune, India)
-- **Sudarshan Khatal** (Dept. of E&Tc, Pune, India)
-- **Suraj Konda** (Dept. of E&Tc, Pune, India)
