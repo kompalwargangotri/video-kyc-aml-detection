@@ -4,20 +4,20 @@ The following screenshots demonstrate the working Video KYC and AML workflows. T
 
 ### KYC Verification – Aadhaar
 
-![KYC Aadhaar Verification](screenshots/kyc_verified_adhar.png)
+![KYC Aadhaar Verification](kyc_verified_adhar.png)
 
 ### KYC Verification – PAN
 
-![KYC PAN Verification](screenshots/kyc_verified_pan.png)
+![KYC PAN Verification](kyc_verified_pan.png)
 
 ### KYC Verification – Date of Birth Mismatch
 
-![KYC DOB Mismatch](screenshots/kyc_failed_DOB_Mismatch.png)
+![KYC DOB Mismatch](kyc_failed_DOB_Mismatch.png)
 
 ### AML Review Decision
 
-![AML Review Decision](screenshots/aml-review-decision.png)
+![AML Review Decision](aml-review-decision.png)
 
 ### AML Block Decision
 
-![AML Block Decision](screenshots/aml-block-decision.png)
+![AML Block Decision](aml-block-decision.png)
