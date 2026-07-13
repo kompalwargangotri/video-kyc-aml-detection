@@ -1,21 +1,24 @@
 # SecureFin: Video KYC and AML Fraud Detection
 
-SecureFin is an AI-powered prototype for automated identity verification (KYC) and financial anomaly detection (AML). It combines computer vision, optical character recognition, facial verification and machine-learning-based anomaly detection to identify suspicious activity.
+SecureFin is an AI-powered academic prototype for automated identity verification (KYC) and financial anomaly detection (AML). It combines computer vision, optical character recognition, facial verification and machine-learning-based anomaly detection to identify suspicious activity.
 
 ## Key Features
 
 ### Identity Verification
 
-- OCR-based information extraction from identity documents
+- OCR-based data extraction from Aadhaar and PAN documents
 - Face comparison between an identity document and live capture
 - YOLOv8-based person detection
-- Multi-person detection to identify potentially suspicious verification attempts
-- Guided liveness verification
+- Multi-person detection for suspicious verification attempts
+- Guided liveness verification using prompted actions
+- Date-of-birth and name validation
+- KYC decisions with confidence scores and reason codes
 
 ### AML Anomaly Detection
 
 - Isolation Forest model for financial anomaly detection
 - Rule-based transaction validation
+- Transaction risk scoring
 - Real-time decisions: `ALLOW`, `REVIEW` or `BLOCK`
 - Model training and evaluation scripts
 
@@ -23,72 +26,94 @@ SecureFin is an AI-powered prototype for automated identity verification (KYC) a
 
 - Password hashing using bcrypt
 - JWT-based authentication
-- Fernet encryption for sensitive information
-- SQLite-based data storage
-- Security and database utility modules
+- Fernet encryption for uploaded identity documents
+- Environment-based secret configuration
+- SQLite-based local data storage
+- Uploaded documents, databases and environment files excluded from Git
 
-### Evaluation
+### Evaluation and Analytics
 
-- AML classification report
-- AML confusion matrix
-- KYC status distribution
+- AML classification report and confusion matrix
+- AML performance and distribution visualizations
+- KYC status and confidence distributions
 - KYC reason-code frequency
-- KYC validation parameter visualization
+- KYC validation-parameter visualization
+- JSON-based evaluation metrics
 
 ## System Workflow
 
 ```text
-Identity Document / Live Capture
-              │
-              ▼
-    YOLOv8 Person Detection
-              │
-              ▼
-       OCR Data Extraction
-              │
-              ▼
- Face Matching and Liveness Check
-              │
-              ▼
-       KYC Decision Engine
-              │
-              ▼
- Isolation Forest + Business Rules
-              │
-              ▼
-       ALLOW / REVIEW / BLOCK
+Identity Document and Live Capture
+                │
+                ▼
+      YOLOv8 Person Detection
+                │
+                ▼
+         OCR Data Extraction
+                │
+                ▼
+   Face Matching and Liveness Check
+                │
+                ▼
+         KYC Decision Engine
+                │
+                ▼
+   Isolation Forest + Business Rules
+                │
+                ▼
+         ALLOW / REVIEW / BLOCK
 ```
 
 ## Project Structure
 
 ```text
 video-kyc-aml-detection/
-├── main.py
-├── run_server.py
-├── aml.py
-├── kyc.py
-├── liveness.py
-├── ocr.py
-├── face_match.py
-├── yolo_detector.py
-├── security.py
-├── db.py
-├── prepare_data.py
-├── train_aml_model.py
-├── evaluate_aml_model.py
-├── evaluate_kyc_metrics.py
-├── aml_model.pkl
-├── yolov8n.pt
-├── index.html
-├── script.js
-├── styles.css
-├── aml_classification_report.txt
-├── aml_confusion_matrix.png
-├── kyc_reason_code_frequency.png
-├── kyc_status_distribution.png
-├── kyc_validation_parameters.png
+├── backend/
+│   ├── main.py
+│   ├── run_server.py
+│   ├── aml.py
+│   ├── kyc.py
+│   ├── liveness.py
+│   ├── ocr.py
+│   ├── face_match.py
+│   ├── yolo_detector.py
+│   ├── security.py
+│   ├── db.py
+│   ├── prepare_data.py
+│   ├── train_aml_model.py
+│   ├── evaluate_aml_model.py
+│   ├── evaluate_kyc_metrics.py
+│   ├── aml_model.pkl
+│   └── yolov8n.pt
+├── frontend/
+│   ├── index.html
+│   ├── script.js
+│   └── styles.css
+├── research_graphs/
+│   ├── aml_classification_report.txt
+│   ├── aml_confusion_matrix.png
+│   ├── aml_distribution.png
+│   ├── aml_metrics.json
+│   ├── aml_performance_graph.png
+│   ├── aml_scatter.png
+│   ├── kyc_confidence.png
+│   ├── kyc_confidence_timeline.png
+│   ├── kyc_metrics.json
+│   ├── kyc_reason_code_frequency.png
+│   ├── kyc_status_distribution.png
+│   └── kyc_validation_parameters.png
+├── screenshots/
+│   ├── aml-block-decision.png
+│   ├── aml-review-decision.png
+│   ├── kyc_failed_DOB_Mismatch.png
+│   ├── kyc_verified_adhar.png
+│   └── kyc_verified_pan.png
+├── database/                  # Generated locally and excluded from Git
+├── frontend_server.py
+├── generate_graphs.py
 ├── run_project.ps1
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
@@ -103,12 +128,13 @@ video-kyc-aml-detection/
 - **Machine Learning:** Scikit-learn, Isolation Forest
 - **Database:** SQLite
 - **Security:** JWT, bcrypt, Fernet encryption
+- **Visualization:** Matplotlib
 
 ## Installation
 
 ### Prerequisites
 
-Before running the project, install:
+Install the following software:
 
 - Python 3.10 or later
 - Git
@@ -161,7 +187,7 @@ On Windows, run:
 .\run_project.ps1
 ```
 
-If script execution is disabled:
+If PowerShell script execution is disabled:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
@@ -170,16 +196,17 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ### Option 2: Run Manually
 
-Start the backend:
+Open the first terminal and start the backend:
 
-```bash
-python run_server.py
+```powershell
+cd backend
+python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-In another terminal, start the frontend:
+Open another terminal from the project root and start the frontend:
 
-```bash
-python -m http.server 5500
+```powershell
+python frontend_server.py
 ```
 
 After starting the application:
@@ -188,56 +215,118 @@ After starting the application:
 - **Frontend:** `http://127.0.0.1:5500`
 - **API Documentation:** `http://127.0.0.1:8000/docs`
 
+## Demo Login Accounts
+
+The following accounts are intended only for local demonstration:
+
+| Role | Username | Password |
+|---|---|---|
+| Agent | `agent01` | `agent123` |
+| Reviewer | `reviewer01` | `review123` |
+
+> Never use these credentials in a publicly deployed application.
+
 ## Model Evaluation
 
-Run the AML evaluation:
+Run the AML evaluation from the project root:
 
-```bash
-python evaluate_aml_model.py
+```powershell
+python backend/evaluate_aml_model.py
 ```
 
 Run the KYC evaluation:
 
-```bash
-python evaluate_kyc_metrics.py
+```powershell
+python backend/evaluate_kyc_metrics.py
 ```
 
-The repository includes the following outputs:
+Generate database-driven research graphs:
 
-- `aml_classification_report.txt`
-- `aml_confusion_matrix.png`
-- `kyc_reason_code_frequency.png`
-- `kyc_status_distribution.png`
-- `kyc_validation_parameters.png`
+```powershell
+python generate_graphs.py
+```
+
+Evaluation outputs are stored in the `research_graphs/` directory.
 
 ## Evaluation Visualizations
 
 ### AML Confusion Matrix
 
-![AML Confusion Matrix](aml_confusion_matrix.png)
+![AML Confusion Matrix](research_graphs/aml_confusion_matrix.png)
+
+### AML Distribution
+
+![AML Distribution](research_graphs/aml_distribution.png)
+
+### AML Performance
+
+![AML Performance](research_graphs/aml_performance_graph.png)
+
+### KYC Confidence
+
+![KYC Confidence](research_graphs/kyc_confidence.png)
 
 ### KYC Status Distribution
 
-![KYC Status Distribution](kyc_status_distribution.png)
+![KYC Status Distribution](research_graphs/kyc_status_distribution.png)
 
 ### KYC Reason-Code Frequency
 
-![KYC Reason-Code Frequency](kyc_reason_code_frequency.png)
+![KYC Reason-Code Frequency](research_graphs/kyc_reason_code_frequency.png)
 
 ### KYC Validation Parameters
 
-![KYC Validation Parameters](kyc_validation_parameters.png)
+![KYC Validation Parameters](research_graphs/kyc_validation_parameters.png)
+
+## Application Screenshots
+
+### KYC Verification – Aadhaar
+
+![KYC Aadhaar Verification](screenshots/kyc_verified_adhar.png)
+
+### KYC Verification – PAN
+
+![KYC PAN Verification](screenshots/kyc_verified_pan.png)
+
+### KYC Verification – Date of Birth Mismatch
+
+![KYC DOB Mismatch](screenshots/kyc_failed_DOB_Mismatch.png)
+
+### AML Review Decision
+
+![AML Review Decision](screenshots/aml-review-decision.png)
+
+### AML Block Decision
+
+![AML Block Decision](screenshots/aml-block-decision.png)
+
+## Data and Privacy
+
+The following files are intentionally excluded from this repository:
+
+- Environment variables and encryption keys
+- SQLite database files
+- Uploaded identity documents
+- Encrypted KYC captures
+- Temporary files and logs
+- Raw transaction datasets
+
+Use synthetic or properly anonymized data when reproducing the experiments.
 
 ## Responsible Use
 
-This project is an academic prototype created for learning and demonstration purposes. It should not be used as a production KYC or financial decision-making system without security auditing, regulatory review, bias testing and extensive validation.
+This project is an academic prototype created for learning and demonstration. It should not be used as a production KYC or financial decision-making system without:
 
-Do not upload real Aadhaar, PAN or other sensitive identity documents while testing the public version of this project.
+- Security auditing
+- Regulatory and legal review
+- Bias and fairness testing
+- Extensive performance validation
+- Secure infrastructure and access controls
 
 ## Future Improvements
 
 - Improve liveness detection against presentation attacks
-- Add document forgery detection
+- Add identity-document forgery detection
 - Evaluate the system on larger and more diverse datasets
 - Add automated testing and continuous integration
 - Containerize the application using Docker
