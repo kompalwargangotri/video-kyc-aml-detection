@@ -1,3 +1,11 @@
-# Application Screenshots
+## Application Screenshots
 
-This folder contains demonstration screenshots of the SecureFin Video KYC and AML detection prototype. All displayed accounts and transaction values are dummy test data.
+### AML Review Decision
+
+![AML Review Decision](screenshots/aml-review-decision.png)
+
+### AML Block Decision
+
+![AML Block Decision](screenshots/aml-block-decision.png)
+
+Additional KYC workflow screenshots are available in the [`screenshots`](screenshots/) folder.
