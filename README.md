@@ -1,112 +1,253 @@
-# YOLO-Based Real-Time Identity Verification and Financial Fraud Detection System
+# SecureFin: Video KYC and AML Fraud Detection
 
-SecureFin is a production-grade identity verification (KYC) and transaction monitoring (AML) compliance framework. It combines deep learning computer vision, optical character recognition (OCR), and machine learning anomaly detection to prevent identity spoofing and financial fraud.
+SecureFin is an AI-powered prototype for automated identity verification (KYC) and financial anomaly detection (AML). It combines computer vision, optical character recognition, facial verification and machine-learning-based anomaly detection to identify suspicious activity.
 
 ## Key Features
 
-- **Advanced Identity Verification Pipeline**:
-  - Optical Character Recognition (OCR) for document validation (Aadhaar, PAN).
-  - Face matching between ID document and real-time capture.
-  - YOLO-based multi-person detection to prevent spoofing.
-  - Guided liveness challenge with text-to-action prompts.
-- **Financial Anomaly Detection (AML Engine)**:
-  - Isolation Forest model combined with customizable business rules.
-  - Real-time decisioning: `ALLOW`, `REVIEW`, or `BLOCK`.
-- **Advanced Security & Hardening**:
-  - Automated plaintext-to-bcrypt hashing migration routine for user passwords.
-  - Dynamic cryptographically secure JWT and encryption key generation in `.env`.
-  - Advanced AES/Fernet encryption for all uploaded PII documents.
-  - Multi-threaded SQLite handling (`check_same_thread=False`).
-- **Research Analytics & Metrics Suite**:
-  - Live performance, distribution, and confidence charts are directly generated to the `research_graphs/` folder for use in research papers.
+### Identity Verification
+
+- OCR-based information extraction from identity documents
+- Face comparison between an identity document and live capture
+- YOLOv8-based person detection
+- Multi-person detection to identify potentially suspicious verification attempts
+- Guided liveness verification
+
+### AML Anomaly Detection
+
+- Isolation Forest model for financial anomaly detection
+- Rule-based transaction validation
+- Real-time decisions: `ALLOW`, `REVIEW` or `BLOCK`
+- Model training and evaluation scripts
+
+### Security
+
+- Password hashing using bcrypt
+- JWT-based authentication
+- Fernet encryption for sensitive information
+- SQLite-based data storage
+- Security and database utility modules
+
+### Evaluation
+
+- AML classification report
+- AML confusion matrix
+- KYC status distribution
+- KYC reason-code frequency
+- KYC validation parameter visualization
+
+## System Workflow
+
+```text
+Identity Document / Live Capture
+              │
+              ▼
+    YOLOv8 Person Detection
+              │
+              ▼
+       OCR Data Extraction
+              │
+              ▼
+ Face Matching and Liveness Check
+              │
+              ▼
+       KYC Decision Engine
+              │
+              ▼
+ Isolation Forest + Business Rules
+              │
+              ▼
+       ALLOW / REVIEW / BLOCK
+```
 
 ## Project Structure
 
 ```text
-securefin_project/
-├── backend/
-│   ├── main.py
-│   ├── aml.py
-│   ├── kyc.py
-│   ├── liveness.py
-│   ├── ocr.py
-│   ├── train_aml_model.py
-│   ├── evaluate_aml_model.py
-│   ├── evaluate_kyc_metrics.py
-│   ├── aml_model.pkl
-│   └── uploads/
-├── frontend/
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
-├── database/
-│   └── securefin.db
-├── research_graphs/
-│   ├── aml_scatter.png
-│   ├── aml_distribution.png
-│   ├── kyc_confidence.png
-│   ├── kyc_status_distribution.png
-│   ├── kyc_validation_parameters.png
-│   └── aml_confusion_matrix.png
-├── frontend_server.py
-├── generate_graphs.py
+video-kyc-aml-detection/
+├── main.py
+├── run_server.py
+├── aml.py
+├── kyc.py
+├── liveness.py
+├── ocr.py
+├── face_match.py
+├── yolo_detector.py
+├── security.py
+├── db.py
+├── prepare_data.py
+├── train_aml_model.py
+├── evaluate_aml_model.py
+├── evaluate_kyc_metrics.py
+├── aml_model.pkl
+├── yolov8n.pt
+├── index.html
+├── script.js
+├── styles.css
+├── aml_classification_report.txt
+├── aml_confusion_matrix.png
+├── kyc_reason_code_frequency.png
+├── kyc_status_distribution.png
+├── kyc_validation_parameters.png
 ├── run_project.ps1
+├── requirements.txt
 └── README.md
 ```
 
 ## Tech Stack
 
-- **Backend**: FastAPI, Uvicorn
-- **Frontend**: HTML, CSS (Inter Typography + Responsive Glassmorphism), JavaScript
-- **AML Engine**: scikit-learn (IsolationForest)
-- **Computer Vision & OCR**: YOLOv8, Tesseract OCR via `pytesseract`
-- **Database**: SQLite (SQLAlchemy & direct cursor handling)
+- **Programming Language:** Python
+- **Backend:** FastAPI, Uvicorn
+- **Frontend:** HTML, CSS, JavaScript
+- **Computer Vision:** YOLOv8, OpenCV
+- **OCR:** Tesseract OCR, Pytesseract
+- **Facial Verification:** DeepFace
+- **Machine Learning:** Scikit-learn, Isolation Forest
+- **Database:** SQLite
+- **Security:** JWT, bcrypt, Fernet encryption
 
-## Setup & Running the Project
+## Installation
 
-### 1. Prerequisite Checklist
+### Prerequisites
 
-- Python 3.10+
-- Tesseract OCR installed on your system PATH (`C:\Program Files\Tesseract-OCR\tesseract.exe`)
+Before running the project, install:
 
-### 2. Launching the Application
+- Python 3.10 or later
+- Git
+- Tesseract OCR
 
-Execute the following one-click PowerShell script from the inner project folder to launch both frontend and backend:
+On Windows, Tesseract OCR is commonly installed at:
+
+```text
+C:\Program Files\Tesseract-OCR\tesseract.exe
+```
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/kompalwargangotri/video-kyc-aml-detection.git
+cd video-kyc-aml-detection
+```
+
+### Create a Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```powershell
+venv\Scripts\activate
+```
+
+Activate it on Linux or macOS:
+
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Running the Application
+
+### Option 1: PowerShell Launcher
+
+On Windows, run:
 
 ```powershell
 .\run_project.ps1
 ```
 
-If script execution is disabled on your system, run:
+If script execution is disabled:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 .\run_project.ps1
 ```
 
-Once running:
+### Option 2: Run Manually
 
-- **Backend**: `http://127.0.0.1:8000`
-- **Frontend**: `http://127.0.0.1:5500`
+Start the backend:
 
-## System Default Login Accounts
-
-- **Agent**: `agent01` | Password: `agent123`
-- **Reviewer**: `reviewer01` | Password: `review123`
-
-## Performance Evaluation & Research Graphs
-
-The platform is designed to instantly compute evaluation metrics. All outputs are automatically stored in the **`research_graphs/`** directory.
-
-To update the graphs from live database records:
-
-```powershell
-# Updates ML evaluation metrics
-python backend/evaluate_aml_model.py
-
-# Updates KYC performance metrics
-python backend/evaluate_kyc_metrics.py
-
-# Generates real-time live database charts
-python generate_graphs.py
+```bash
+python run_server.py
 ```
+
+In another terminal, start the frontend:
+
+```bash
+python -m http.server 5500
+```
+
+After starting the application:
+
+- **Backend:** `http://127.0.0.1:8000`
+- **Frontend:** `http://127.0.0.1:5500`
+- **API Documentation:** `http://127.0.0.1:8000/docs`
+
+## Model Evaluation
+
+Run the AML evaluation:
+
+```bash
+python evaluate_aml_model.py
+```
+
+Run the KYC evaluation:
+
+```bash
+python evaluate_kyc_metrics.py
+```
+
+The repository includes the following outputs:
+
+- `aml_classification_report.txt`
+- `aml_confusion_matrix.png`
+- `kyc_reason_code_frequency.png`
+- `kyc_status_distribution.png`
+- `kyc_validation_parameters.png`
+
+## Evaluation Visualizations
+
+### AML Confusion Matrix
+
+![AML Confusion Matrix](aml_confusion_matrix.png)
+
+### KYC Status Distribution
+
+![KYC Status Distribution](kyc_status_distribution.png)
+
+### KYC Reason-Code Frequency
+
+![KYC Reason-Code Frequency](kyc_reason_code_frequency.png)
+
+### KYC Validation Parameters
+
+![KYC Validation Parameters](kyc_validation_parameters.png)
+
+## Responsible Use
+
+This project is an academic prototype created for learning and demonstration purposes. It should not be used as a production KYC or financial decision-making system without security auditing, regulatory review, bias testing and extensive validation.
+
+Do not upload real Aadhaar, PAN or other sensitive identity documents while testing the public version of this project.
+
+## Future Improvements
+
+- Improve liveness detection against presentation attacks
+- Add document forgery detection
+- Evaluate the system on larger and more diverse datasets
+- Add automated testing and continuous integration
+- Containerize the application using Docker
+- Deploy the API and frontend securely
+- Add role-based access control and audit logging
+
+## Author
+
+**Gangotri Kompalwar**
+
+- [GitHub](https://github.com/kompalwargangotri)
+- [LinkedIn](https://www.linkedin.com/in/gangotri-kompalwar-4635b9359)
+- [Email](mailto:kompalwargangotri@gmail.com)
