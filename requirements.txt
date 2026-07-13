@@ -6,11 +6,11 @@ cryptography
 passlib
 bcrypt<4.0.0
 opencv-python
-numpy
+numpy==2.4.3
 pandas
 matplotlib
 seaborn
-scikit-learn
+scikit-learn==1.8.0
 joblib
 pytesseract
 ultralytics
