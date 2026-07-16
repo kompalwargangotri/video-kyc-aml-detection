@@ -338,5 +338,9 @@ This project is an academic prototype created for learning and demonstration. It
 **Gangotri Kompalwar**
 
 - [GitHub](https://github.com/kompalwargangotri)
+  
 - [LinkedIn](https://www.linkedin.com/in/gangotri-kompalwar-4635b9359)
+
+- [Portfolio] [Gangotri Kompalwar](https://kompalwargangotri.github.io/)
+  
 - [Email](mailto:kompalwargangotri@gmail.com)
